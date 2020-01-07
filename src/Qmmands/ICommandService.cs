@@ -44,10 +44,7 @@ namespace Qmmands
         /// </summary>
         IArgumentParser DefaultArgumentParser { get; }
 
-        /// <summary>
-        ///     Gets the generator <see langword="delegate"/> used for <see cref="Cooldown"/> bucket keys.
-        /// </summary>
-        CooldownBucketKeyGeneratorDelegate CooldownBucketKeyGenerator { get; }
+        ICooldownProvider CooldownProvider { get; }
 
         /// <summary>
         ///     Gets the quotation mark map used for non-remainder multi word arguments.

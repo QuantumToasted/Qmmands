@@ -47,10 +47,7 @@ namespace Qmmands
         /// </summary>
         public IArgumentParser DefaultArgumentParser { get; private set; }
 
-        /// <summary>
-        ///     Gets the generator <see langword="delegate"/> used for <see cref="Cooldown"/> bucket keys.
-        /// </summary>
-        public CooldownBucketKeyGeneratorDelegate CooldownBucketKeyGenerator { get; }
+        public ICooldownProvider CooldownProvider { get; }
 
         /// <summary>
         ///     Gets the quotation mark map used for non-remainder multi word arguments.
@@ -116,7 +113,7 @@ namespace Qmmands
             IgnoresExtraArguments = configuration.IgnoresExtraArguments;
             Separator = configuration.Separator;
             SeparatorRequirement = configuration.SeparatorRequirement;
-            CooldownBucketKeyGenerator = configuration.CooldownBucketKeyGenerator;
+            CooldownProvider = configuration.CooldownProvider;
             QuotationMarkMap = configuration.QuoteMap != null
                 ? new ReadOnlyDictionary<char, char>(configuration.QuoteMap.ToDictionary(kvp => kvp.Key, kvp => kvp.Value))
                 : CommandUtilities.DefaultQuotationMarkMap;
@@ -1131,13 +1128,13 @@ namespace Qmmands
         {
             try
             {
-                var cooldownResult = context.Command.RunCooldowns(context);
+                var cooldownResult = await context.Command.RunCooldownsAsync(context).ConfigureAwait(false);
                 if (!cooldownResult.IsSuccessful)
                     return cooldownResult;
             }
             catch (Exception ex)
             {
-                var result = new ExecutionFailedResult(context.Command, CommandExecutionStep.CooldownBucketKeyGenerating, ex);
+                var result = new ExecutionFailedResult(context.Command, CommandExecutionStep.CooldownChecking, ex);
                 await InvokeCommandErroredAsync(result, context).ConfigureAwait(false);
                 return result;
             }

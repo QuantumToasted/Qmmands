@@ -42,7 +42,7 @@ namespace Qmmands
                     CommandExecutionStep.TypeParsing => $"An exception occurred while type parsing arguments for {Command}.",
                     CommandExecutionStep.BeforeExecuted => $"An exception occurred while calling before executed for {Command}.",
                     CommandExecutionStep.Command => $"An exception occurred while executing {Command}.",
-                    CommandExecutionStep.CooldownBucketKeyGenerating => $"An exception occurred while generating the cooldown bucket key for {Command}.",
+                    CommandExecutionStep.CooldownChecking => $"An exception occurred while checking if {Command} was on cooldown.",
                     _ => throw new InvalidOperationException("Invalid command execution step."),
                 }, true);
         }

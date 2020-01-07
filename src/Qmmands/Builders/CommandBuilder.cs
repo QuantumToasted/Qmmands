@@ -55,11 +55,6 @@ namespace Qmmands
         public Type CustomArgumentParserType { get; set; }
 
         /// <summary>
-        ///     Gets the <see cref="Cooldown"/>s of the <see cref="Command"/>.
-        /// </summary>
-        public List<Cooldown> Cooldowns { get; }
-
-        /// <summary>
         ///     Gets the aliases of the <see cref="Command"/>.
         /// </summary>
         public HashSet<string> Aliases { get; }
@@ -96,7 +91,6 @@ namespace Qmmands
         {
             Module = module;
             Callback = callback;
-            Cooldowns = new List<Cooldown>();
             Aliases = new HashSet<string>(1);
             Checks = new List<CheckAttribute>();
             Attributes = new List<Attribute>();
@@ -163,15 +157,6 @@ namespace Qmmands
         public CommandBuilder WithCustomArgumentParserType(Type customArgumentParserType)
         {
             CustomArgumentParserType = customArgumentParserType;
-            return this;
-        }
-
-        /// <summary>
-        ///     Adds a <see cref="Cooldown"/> to <see cref="Cooldowns"/>.
-        /// </summary>
-        public CommandBuilder AddCooldown(Cooldown cooldown)
-        {
-            Cooldowns.Add(cooldown);
             return this;
         }
 

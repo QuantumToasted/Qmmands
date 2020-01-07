@@ -23,9 +23,9 @@ namespace Qmmands
         /// <summary>
         ///     Gets the <see cref="Cooldown"/>s and <see cref="TimeSpan"/>s after which it is safe to retry.
         /// </summary>
-        public IReadOnlyList<(Cooldown Cooldown, TimeSpan RetryAfter)> Cooldowns { get; }
+        public IReadOnlyList<(CooldownAttribute Cooldown, TimeSpan RetryAfter)> Cooldowns { get; }
 
-        internal CommandOnCooldownResult(Command command, IReadOnlyList<(Cooldown Cooldown, TimeSpan RetryAfter)> cooldowns)
+        internal CommandOnCooldownResult(Command command, IReadOnlyList<(CooldownAttribute Cooldown, TimeSpan RetryAfter)> cooldowns)
         {
             Command = command;
             Cooldowns = cooldowns;
@@ -33,8 +33,8 @@ namespace Qmmands
             _lazyReason = new Lazy<string>(() =>
             {
                 return cooldowns.Count == 1
-                    ? $"Command {command} is on a '{cooldowns[0].Cooldown.BucketType}' cooldown. Retry after {cooldowns[0].RetryAfter}."
-                    : $"Command {command} is on multiple cooldowns: {string.Join(", ", cooldowns.Select(x => $"'{x.Cooldown.BucketType}' - retry after {x.RetryAfter}"))}";
+                    ? $"Command {command} is on cooldown. Retry after {cooldowns[0].RetryAfter}." // TODO: Whatever you want to be displayed.
+                    : $"Command {command} is on multiple cooldowns: {string.Join(", ", cooldowns.Select(x => $"'{x.Cooldown.GetType().Name}' - retry after {x.RetryAfter}"))}";
             }, true);
         }
     }

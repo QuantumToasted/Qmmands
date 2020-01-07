@@ -92,11 +92,7 @@ namespace Qmmands
         /// </summary>
         public IArgumentParser DefaultArgumentParser { get; set; }
 
-        /// <summary>
-        ///     Gets or sets the generator <see langword="delegate"/> to use for <see cref="Cooldown"/> bucket keys.
-        ///     Defaults to <see langword="null"/>.
-        /// </summary>
-        public CooldownBucketKeyGeneratorDelegate CooldownBucketKeyGenerator { get; set; }
+        public ICooldownProvider CooldownProvider { get; set; }
 
         /// <summary>
         ///     Gets or sets the quotation mark map.
